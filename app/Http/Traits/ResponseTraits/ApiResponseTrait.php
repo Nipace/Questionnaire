@@ -1,24 +1,26 @@
 <?php
 
 namespace App\Http\Traits\ResponseTraits;
-
+/**
+ * Trait for api respones
+ */
 trait ApiResponseTrait
 {
 
     /**
      * Generates success response for api
      *
-     * @param  array $resource
+     * @param  mixed $resource
      * @param  string $message
      * @param  int $code
      * @return void
      */
-    public function successsResponse(array $resource, String $message = null, Int $code,)
+    public function successResponse($resource, String $message = null, Int $code,)
     {
         $response = [
             'status' => true,
             'data' => $resource,
-            'message' => $message
+            'message' => $message ?? 'The request was sucessfully performed'
         ];
         return $this->response($response, $code);
     }

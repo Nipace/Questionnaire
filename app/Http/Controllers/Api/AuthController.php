@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LoginResource;
+use App\Http\Traits\ResponseTraits\ApiResponseTrait;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
-{    
+{
+    use ApiResponseTrait;
     /**
      * Handles user login
      *
@@ -22,20 +25,12 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']]))
-        {
+        if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
             $user = $request->user();
             $success['token'] = $user->createToken('questionnaire')->plainTextToken;
-            $name = $user->name;
-            $response = [
-                'success' => 'true',
-                'data' => $success,
-                'message' => 'User Login Sucessfully',
-            ];
-            return response()->json($response,200);
-        }
-        else{
-            return response()->json(['success'=>'false','message'=>'Invalid Credentials'],401);
+            return $this->successResponse(new LoginResource($success), 'User Login Sucessfully', 200);
+        } else {
+            return $this->failureResponse(400);
         }
     }
 }

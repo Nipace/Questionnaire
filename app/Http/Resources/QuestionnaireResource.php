@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuestionnaireResource extends JsonResource
@@ -17,7 +18,7 @@ class QuestionnaireResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'expiry_date' => $this->expiry_date,
+            'expiry_date' => Carbon::parse($this->expiry_date)->toDateString(),
             'questions' => QuestionResource::collection($this->questions)
             
         ];

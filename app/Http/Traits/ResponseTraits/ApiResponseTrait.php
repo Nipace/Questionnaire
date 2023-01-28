@@ -33,7 +33,7 @@ trait ApiResponseTrait
      * @param  int $code
      * @return void
      */
-    public function failureResponse(Int $code = null, array $resource = null, String $message = null)
+    public function failureResponse(Int $code = null, String $message = null,array $resource = null)
     {
         $response = [
             'status' => false,

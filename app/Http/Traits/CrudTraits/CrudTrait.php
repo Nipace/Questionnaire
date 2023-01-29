@@ -2,7 +2,6 @@
 
 namespace App\Http\Traits\CrudTraits;
 
-use App\Models\Question;
 use Illuminate\Http\Request;
 
 /**
@@ -18,6 +17,7 @@ trait CrudTrait
     public function index()
     {
         $model = $this->model;
+        $model = $model->scope();
         $result = $model->with($this->with)->get();
         return $this->successResponse($this->resource::collection($result), 'Records Loaded Sucessfully', 200);
     }
@@ -31,14 +31,12 @@ trait CrudTrait
     public function store(Request $request)
     {
         $data = $request->validate($this->rules);
-        $model = $this->model->create($data);
-        if($this->model->pivots)
+        $model = $this->model->store($data);
+        if(isset($this->resource))
         {
-            foreach ($this->model->pivots as $pivot) {
-                    $model->$pivot()->attach(Question::inRandomOrder()->limit(5)->pluck('id')->toArray());
-            }
+            return $this->successResponse(new $this->resource($model), 'Record Created Succesfully', 200);
         }
-        return $this->successResponse(new $this->resource($model), 'Record Created Succesfully', 200);
+        return $this->response('Record Created Successfully',200);
     }
 
     /**
@@ -51,5 +49,13 @@ trait CrudTrait
     {
         $model = $this->model->findOrfail($id);
         return $this->successResponse(new $this->resource($model), 'Record loaded Sucessfully', 200);
+    }
+
+     /**
+     * @return $this
+     */
+    public function scope()
+    {
+        return $this;
     }
 }

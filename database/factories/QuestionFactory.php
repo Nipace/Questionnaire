@@ -19,11 +19,11 @@ class QuestionFactory extends Factory
     {
         $options = fake()->words();
         return [
-                'section_id' => '2',
+                'section_id' => '1',
                 'title' => fake()->sentence(),
                 'order' => self::$order++,
                 'options' =>json_encode($options),
-                'right_options'=> json_encode($options[1]),
+                'right_options'=> json_encode([$options[1]]),
         ];
     }
 }

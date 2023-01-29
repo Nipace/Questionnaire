@@ -6,6 +6,9 @@ import NotFoundView from '../views/errors/NotFoundView.vue';
 import LoginView from '../views/auth/LoginView.vue'
 import QuestionnaireListView from '../views/admin/questionnaire/QuestionnaireListView.vue'
 import QuestionnaireAddView from '../views/admin/questionnaire/QuestionnaireAddView.vue'
+import QuestionnaireResponseView from '../views/questionnaire/QuestionnaireResponseView.vue'
+import InvalidTokenView from '../views/errors/InvalidTokenView.vue'
+import ThankYouView from '../views/home/ThankYouView.vue'
 const routes = [
    {
       path: '/admin/dashboard',
@@ -49,6 +52,30 @@ const routes = [
       }
    },
    {
+      path: '/questionnaire/response/:token',
+      name: 'resposne-questionnaire',
+      component: QuestionnaireResponseView,
+      meta: {
+         requiresAuth: false
+      }
+   },
+   {
+      path: '/invalid-token',
+      name: 'invalid-token',
+      component: InvalidTokenView,
+      meta: {
+         requiresAuth: false
+      }
+   },
+   {
+      path: '/thank-you',
+      name: 'thank-you',
+      component: ThankYouView,
+      meta: {
+         requiresAuth: false
+      }
+   },
+   {
       path: '/:pathMatch(.*)*',
       name: 'notfound',
       component: NotFoundView,
@@ -68,8 +95,9 @@ router.beforeEach((to, form) => {
    if (to.meta.requiresAuth && !localStorage.getItem('token')) {
       return { name: 'login' }
    }
-   if (to.meta.requiresAuth == false && localStorage.getItem('token')) {
+   if (to.name == 'login' && localStorage.getItem('token')) {
       return { name: 'dashboard' }
    }
+
 })
 export default router;

@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\QuestionnaireResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuestionResource extends JsonResource
+class TokenCheckResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +16,9 @@ class QuestionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'section' => ucfirst( $this->section->name),
-            'options' => json_decode($this->options),
-            'right_options' => json_decode($this->right_options)
+            'questionnaire_id' => $this->questionnaire_id,
+            'student_id' => $this->student_id,
+            'questionnaire' => new QuestionnaireResource($this->questionnaire)
         ];
     }
 }

@@ -9,6 +9,7 @@
                         <h5 class="card-title text-center mb-5 fw-light fs-5 fw-bold">
                             Enter Questionnaire Details
                         </h5>
+                        <p class="text-danger text-center fw-bold">{{hasError}}</p>
                         <form @submit.prevent="create">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -38,22 +39,31 @@
 </template>
 
 <script setup>
-    import { reactive } from 'vue';
+    import { ref,reactive } from 'vue';
     import BaseView from '../../layouts/BaseView.vue'
     import { useRouter } from 'vue-router';
+    import { $authApi } from '../../../auth';
 
     const router = useRouter()
+    let hasError = ref('');
 
     let form = reactive({
         title: '',
-        expiry_date: ''
+        expiry_date: '',
+
     })
 
     const create = () => {
-        axios.post('/api/questionnaire', form)
+        $authApi.post('/api/questionnaire', form)
             .then(res => {
                 alert(res.data.message)
                 router.push({name:'questionnaire'})
+            }).catch(err=>{
+                if(err.response)
+                {
+                    hasError.value = err.response.data.message
+
+                }
             })
     }
 </script>

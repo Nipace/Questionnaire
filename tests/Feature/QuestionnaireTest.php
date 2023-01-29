@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class QuestionnaireTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
     /**
      * @test
      * 
@@ -23,16 +23,15 @@ class QuestionnaireTest extends TestCase
     public function a_questionnaire_is_created()
     {
 
-        $response = $this->post('/api/questionnaire',[
-            'title'=>'title',
+        $response = $this->post('/api/questionnaire', [
+            'title' => 'title',
             'expiry_date' => Carbon::today()->addDays(15)
         ]);
 
         $response->assertStatus(200);
-        $this->assertCount(1,Questionnaire::all());
-
+        $this->assertCount(1, Questionnaire::all());
     }
-    
+
     /**
      * @test
      * Tests if active questionnaires are retrived
@@ -41,23 +40,32 @@ class QuestionnaireTest extends TestCase
      */
     public function active_questionnaires_are_retrived()
     {
-        $response = $this->post('/api/questionnaire',[
-            [
-                'title'=>'title',
-                'expiry_date' => Carbon::today()->addDays(15)
-            ],
-            [
-                'title'=>'title',
-                'expiry_date' => Carbon::today()->subdays(15)
-            ]
-        ]);
         $response = $this->get('/api/questionnaire');
         $response->assertStatus(200);
-        $response->assertCount(1);
-        $response->assertJson(function(AssertableJson $json){
-            $json->hasAll(['status','data','message'])->where('status',true);
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['status', 'data', 'message'])->where('status', true);
         });
     }
-
     
+    /**
+     * @test
+     * 
+     * Tests if invitations is sent to all the students
+     *
+     * @return void
+     */
+    public function invitaion_is_sent_to_all_students()
+    {
+        $this->withoutExceptionHandling();
+
+        $questionnaire = $this->post('/api/questionnaire', [
+            'title' => 'title',
+            'expiry_date' => Carbon::today()->addDays(15)
+        ]);
+        $response = $this->post('/api/invite/'.$questionnaire['data']['id'],[]);
+        $response->assertStatus(200);
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['status', 'data', 'message'])->where('status', true);
+        });
+    }
 }

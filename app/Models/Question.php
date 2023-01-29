@@ -25,4 +25,9 @@ class Question extends Model
         'options' => 'array',
         'right_options' => 'array'
     ];
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
 }

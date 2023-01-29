@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Section;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,7 +20,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             SectionSeeder::class,
-            QuestionSeeder::class
+            QuestionSeeder::class,
+            StudentSeeder::class
         ]);
     }
 }

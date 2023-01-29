@@ -9,7 +9,9 @@
                         <h5 class="card-title text-center mb-5 fw-light fs-5 fw-bold">
                             List of Active Questionnaires 
                         </h5>
-                        <router-link :to="{name:'create-questionnaire'}" class="btn btn-success mb-5">Create New</router-link>
+                            <div v-if="loading">Inviting to all students please wait for a while (It might take some time)............</div>
+                        <div class="data" v-else>
+                            <router-link :to="{name:'create-questionnaire'}" class="btn btn-success mb-5">Create New</router-link>
 
                         <table class="table">
                             <thead>
@@ -25,11 +27,12 @@
                                     <th scope="row">1</th>
                                     <td>{{ questionnaire.title }}</td>
                                     <td>{{ questionnaire.expiry_date }}</td>
-                                    <td><button class="btn btn-danger btn-sm">Invite Students</button></td>
+                                    <td><button class="btn btn-danger btn-sm" @click="invite(questionnaire.id)">Invite</button></td>
                                 </tr>
-                               
                             </tbody>
                         </table>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -39,11 +42,19 @@
 
 <script setup>
 import { onMounted,ref } from 'vue';
+import { $authApi } from '../../../auth';
 import BaseView from '../../layouts/BaseView.vue'
 const questionnaires = ref({})
-
+const loading = ref(false)
+const invite = (questionnaire_id) => {
+    loading.value = true;
+    $authApi.post('/api/invite/'+questionnaire_id).then(res => {
+        loading.value = false;
+        alert(res.data.message);
+    })
+}
 onMounted(()=>{
-    axios.get('/api/questionnaire').then(res=>{
+    $authApi.get('/api/questionnaire').then(res=>{
        questionnaires.value = res.data.data
     })
 })

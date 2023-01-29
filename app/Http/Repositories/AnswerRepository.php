@@ -1,20 +1,22 @@
-<?php 
+<?php
 
 namespace App\Http\Repositories;
 
 use App\Http\Traits\RepositoryTraits\CrudRepositoryTrait;
 use App\Models\Answer;
 
-class AnswerRepository{
+class AnswerRepository
+{
 
     use CrudRepositoryTrait;
+
     protected $model;
 
     public function __construct(Answer $model)
     {
         $this->model = $model;
     }
-    
+
     /**
      * Stores ansers with json_encode 
      *

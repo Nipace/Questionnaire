@@ -21,7 +21,7 @@ class Answer extends Model
         'answers'
     ];
 
-     /**
+    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -29,5 +29,4 @@ class Answer extends Model
     protected $casts = [
         'answer' => 'array',
     ];
-    
 }

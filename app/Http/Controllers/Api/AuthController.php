@@ -30,7 +30,7 @@ class AuthController extends Controller
             $success['token'] = $user->createToken('questionnaire')->plainTextToken;
             return $this->successResponse(new LoginResource($success), 'User Login Sucessfully', 200);
         } else {
-            return $this->failureResponse(401,'Invalid Credentials');
+            return $this->failureResponse(401, 'Invalid Credentials');
         }
     }
 }

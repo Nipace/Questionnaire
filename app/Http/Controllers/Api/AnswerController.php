@@ -40,5 +40,4 @@ class AnswerController extends Controller
         'student_id' => 'required',
         'answers' => 'required'
     ];
-
 }

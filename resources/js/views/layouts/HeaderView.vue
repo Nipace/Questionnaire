@@ -7,7 +7,7 @@
             <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
           </a>
 
-          <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+          <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" v-if="auth">
             <li>
               <router-link :to="{name:'dashboard'}" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"></use></svg>
@@ -30,7 +30,9 @@
           <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
         <div class="text-end">
-          <button type="button" class="btn btn-warning me-2" @click="logout">Log Out</button>
+
+          <button type="button" class="btn btn-warning me-2" @click="logout" v-if="auth">Log Out</button>
+          <router-link :to="{name:'login'}" type="button" class="btn btn-warning me-2" @click="login" v-else>Log In</router-link>
         </div>
       </div>
     </div>
@@ -38,10 +40,20 @@
 </template>
 
 <script setup>
+import { onMounted,ref } from "vue";
 import { useRouter } from "vue-router";
+const auth = ref(false)
 const router = useRouter()
 const logout = () => {
   localStorage.removeItem('token')
   router.push('/')
 }
+
+onMounted(()=>{
+
+  if(localStorage.getItem('token') !=null)
+  {
+    auth.value = true;
+  }
+})
 </script>

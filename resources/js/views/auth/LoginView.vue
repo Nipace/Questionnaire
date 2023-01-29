@@ -8,34 +8,21 @@
             <h5 class="card-title text-center mb-5 fw-light fs-5 fw-bold">
               SIGN IN
             </h5>
-            <p class="text-danger text-center fw-bold">{{hasError}}</p>
+            <p class="text-danger text-center fw-bold">{{ hasError }}</p>
             <form @submit.prevent="login">
               <div class="form-floating mb-3">
-                <input
-                  type="email"
-                  class="form-control"
-                  id="floatingInput"
-                  placeholder="name@example.com"
-                  v-model="form.email"
-                />
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                  v-model="form.email" />
                 <label for="floatingInput">Email address</label>
               </div>
               <div class="form-floating mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="floatingPassword"
-                  placeholder="Password"
-                  v-model="form.password"
-                />
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                  v-model="form.password" />
                 <label for="floatingPassword">Password</label>
               </div>
 
               <div class="d-grid">
-                <button
-                  class="btn btn-success btn-login text-uppercase fw-bold"
-                  type="submit"
-                >
+                <button class="btn btn-success btn-login text-uppercase fw-bold" type="submit">
                   Sign in
                 </button>
               </div>
@@ -49,10 +36,10 @@
 </template>
 
 <script setup>
-import { reactive,ref } from "vue";
-import {useRouter} from 'vue-router';
+import { reactive, ref } from "vue";
+import { useRouter } from 'vue-router';
 
-const router= useRouter()
+const router = useRouter()
 let form = reactive({
   email: "",
   password: "",
@@ -60,13 +47,13 @@ let form = reactive({
 let hasError = ref('');
 const login = async () => {
   await axios.post("/api/login", form).then((res) => {
-    if(res.data.status === true){
-        localStorage.setItem('token',res.data.data.token)
-        router.push('/admin/dashboard');
-    } 
-  }).catch(err=>{
-    if(err.response){
-        hasError.value = err.response.data.message
+    if (res.data.status === true) {
+      localStorage.setItem('token', res.data.data.token)
+      router.push('/admin/dashboard');
+    }
+  }).catch(err => {
+    if (err.response) {
+      hasError.value = err.response.data.message
     }
   });
 };

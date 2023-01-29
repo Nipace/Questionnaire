@@ -46,5 +46,4 @@ class QuestionnaireController extends Controller
         'title' => 'required',
         'expiry_date' => 'required'
     ];
-
 }

@@ -32,6 +32,11 @@
 - MAIL_ENCRYPTION=tls
 - MAIL_FROM_NAME="${APP_NAME}"
 
+### Credentials
+- **email: admin@test.com**
+- **password: password**
+
+
 
 *Note:: Email configuration is required compulsorily for invitaiton purpose*  
 

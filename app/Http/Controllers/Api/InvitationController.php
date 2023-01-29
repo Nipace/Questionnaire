@@ -13,7 +13,7 @@ use App\Http\Traits\ResponseTraits\ApiResponseTrait;
 use Illuminate\Support\Facades\Mail;
 
 class InvitationController extends Controller
-{  
+{
     use ApiResponseTrait;
 
     protected $model;
@@ -22,7 +22,7 @@ class InvitationController extends Controller
 
     protected $student;
 
-    public function __construct(Invite $model,Questionnaire $questionnaire, Student $student)
+    public function __construct(Invite $model, Questionnaire $questionnaire, Student $student)
     {
         $this->model = $model;
         $this->questionnaire = $questionnaire;
@@ -46,19 +46,24 @@ class InvitationController extends Controller
                 'student_id' => $student->id,
                 'token' => $token
             ]);
-            $url = url('/questionnaire/response/'.$token);
-            Mail::to($student->email)->queue(new InvitationMail($invite,$url));
+            $url = url('/questionnaire/response/' . $token);
+            Mail::to($student->email)->queue(new InvitationMail($invite, $url));
         }
-        return $this->response(['success'=>true,'message'=>'Inviatation Link Sent Successfully'],200);
+        return $this->response(['success' => true, 'message' => 'Inviatation Link Sent Successfully'], 200);
     }
 
+    /**
+     * Check if token is vaild and provide questions in response
+     *
+     * @param  string $token
+     * @return void
+     */
     public function check(String $token)
     {
-        $model = $this->model->where('token',$token)->with('questionnaire.questions.section')->first();
-        if($model)
-        {
-            return $this->successResponse(new TokenCheckResource($model),'Token checked successfully',200);
+        $model = $this->model->where('token', $token)->with('questionnaire.questions.section')->first();
+        if ($model) {
+            return $this->successResponse(new TokenCheckResource($model), 'Token checked successfully', 200);
         }
-        return $this->failureResponse(498,'Invalid Token');
+        return $this->failureResponse(498, 'Invalid Token');
     }
 }

@@ -9,8 +9,22 @@ class Invite extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'questionnaire_id',
+        'student_id',
+        'token'
+    ];
+    
+    /**
+     * Belongs to relation with questionnaire
+     *
+     * @return void
+     */
     public function questionnaire()
     {
         return $this->belongsTo(Questionnaire::class,'questionnaire_id','id');

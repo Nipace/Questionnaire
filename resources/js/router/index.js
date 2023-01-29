@@ -9,6 +9,7 @@ import QuestionnaireAddView from '../views/admin/questionnaire/QuestionnaireAddV
 import QuestionnaireResponseView from '../views/questionnaire/QuestionnaireResponseView.vue'
 import InvalidTokenView from '../views/errors/InvalidTokenView.vue'
 import ThankYouView from '../views/home/ThankYouView.vue'
+
 const routes = [
    {
       path: '/admin/dashboard',

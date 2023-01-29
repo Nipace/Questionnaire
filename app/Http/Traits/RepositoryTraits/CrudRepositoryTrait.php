@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Traits\RepositoryTraits;
+
 /**
  * Trait CrudRepositoryTrait
  * 
@@ -54,6 +55,4 @@ trait CrudRepositoryTrait
     {
         return $this;
     }
-
-
 }

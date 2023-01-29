@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Traits\ResponseTraits;
+
 /**
  * Trait for api respones
  */
@@ -33,7 +34,7 @@ trait ApiResponseTrait
      * @param  int $code
      * @return void
      */
-    public function failureResponse(Int $code = null, String $message = null,array $resource = null)
+    public function failureResponse(Int $code = null, String $message = null, array $resource = null)
     {
         $response = [
             'status' => false,

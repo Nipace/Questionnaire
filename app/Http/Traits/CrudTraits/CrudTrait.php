@@ -32,11 +32,10 @@ trait CrudTrait
     {
         $data = $request->validate($this->rules);
         $model = $this->model->store($data);
-        if(isset($this->resource))
-        {
+        if (isset($this->resource)) {
             return $this->successResponse(new $this->resource($model), 'Record Created Succesfully', 200);
         }
-        return $this->response('Record Created Successfully',200);
+        return $this->response('Record Created Successfully', 200);
     }
 
     /**
@@ -51,7 +50,7 @@ trait CrudTrait
         return $this->successResponse(new $this->resource($model), 'Record loaded Sucessfully', 200);
     }
 
-     /**
+    /**
      * @return $this
      */
     public function scope()

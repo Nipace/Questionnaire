@@ -26,7 +26,6 @@ class QuestionnaireRepository{
         $this->helper = $helper;
     }
 
-    
     /**
      * Stores questionnaire qith ramdom questions 
      *
@@ -42,7 +41,12 @@ class QuestionnaireRepository{
         return $model;
         
     }
-
+    
+    /**
+     * Local scope to check questionnaire expiry
+     *
+     * @return $this
+     */
     public function scope()
     {
         $this->model = $this->model->where('expiry_date','>',Carbon::today());

@@ -25,7 +25,12 @@ class Question extends Model
         'options' => 'array',
         'right_options' => 'array'
     ];
-
+    
+    /**
+     * Belongs to relation with section
+     *
+     * @return void
+     */
     public function section()
     {
         return $this->belongsTo(Section::class);
